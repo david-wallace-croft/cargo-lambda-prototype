@@ -14,6 +14,7 @@
 - cd cargo-lambda-prototype/
 - cargo lambda watch
 - http://localhost:9000/?name=World
+- http://localhost:9000/lambda-url/cargo-lambda-prototype/?name=World
 
 ## Deploy
 
