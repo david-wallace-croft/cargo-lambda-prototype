@@ -26,33 +26,47 @@
 
 ## Deploy
 
-- cargo lambda build --release --arm64
+- Build a release for the ARM64 architecture
+```
+cargo lambda build --release --arm64
+```
 - Set up your AWS credentials
-- cargo lambda deploy --enable-function-url
+- Deploy the Lambda to the cloud
   - This will automatically generate a role for you
-- Note the URL
+  - Note the generated URL
+```
+cargo lambda deploy --enable-function-url
+```
 - Test
   - Example URL: https://\[abc123].lambda-url.\[region].on.aws/?name=World
 
 ## Undeploy
 
-- aws lambda get-function --function-name cargo-lambda-prototype
-- Note the Amazon Resource Name (ARN) for the role
-- aws iam list-attached-role-policies --role-name cargo-lambda-role-\[UUID]
-- Note the ARN for the policy
+- Get the Lambda function details
+  - Note the name of the role that was automatically generated for you
+  - You will need it in a following step to delete the role
+```
+aws lambda get-function --function-name cargo-lambda-prototype
+```
 - Delete the Lambda function
 ```
 aws lambda delete-function --function-name cargo-lambda-prototype
 ```
+- List the policies attached to the role
+  - Note the ARN for the policy
+```
+aws iam list-attached-role-policies --role-name cargo-lambda-role-[UUID]
+```
 - Detach the managed policy from the role
+  - You cannot delete the role until you detach the policy
 ```
 aws iam detach-role-policy \
-  --role-name cargo-lambda-role-\[UUID]
+  --role-name cargo-lambda-role-[UUID]
   --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
 ```
 - Delete the role
 ```
-aws iam delete-role --role-name cargo-lambda-role-\[UUID]
+aws iam delete-role --role-name cargo-lambda-role-[UUID]
 ```
 - Optional: Deactivate your AWS access key until you need it again
 
