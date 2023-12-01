@@ -15,6 +15,12 @@
 - cargo lambda watch
 - http://localhost:9000/?name=World
 
+## Deploy
+
+- cargo lambda build --release --arm64
+- TODO
+- cargo lambda deploy --enable-function-url --iam-role $env:IAMROLE
+
 ## History
 
 - Initial release: 2023-12-01
