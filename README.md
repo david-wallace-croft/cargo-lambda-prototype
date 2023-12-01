@@ -18,11 +18,11 @@
 - http://localhost:9000/lambda-url/cargo-lambda-prototype/?name=World
 - Open a new terminal
 - cargo lambda -v invoke --data-example apigw-request cargo-lambda-prototype --output-format json
-- Note DEBUG output showing the location of the cached example input file
+- Note the DEBUG output showing the location of the cached example input file
 - Edit the cached example input file to change the name
   - Look for the name property under multiValueQueryStringParameters
 - Run the cargo lambda invoke command again
-  - The output should show the name that you changed in the example input file
+  - The output should show the name that you changed to in the example input file
 
 ## Deploy
 
