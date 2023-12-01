@@ -43,8 +43,8 @@ cargo lambda deploy --enable-function-url
 ## Undeploy
 
 - Get the Lambda function details
-  - Note the name of the role that was automatically generated for you
-  - You will need it in a following step to delete the role
+  - You will need the name of the role for the Lambda function in a later step
+  - This was the role that was automatically created for you when you deployed
 ```
 aws lambda get-function --function-name cargo-lambda-prototype
 ```
