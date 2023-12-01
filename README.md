@@ -15,6 +15,7 @@
 - cargo lambda watch
 - http://localhost:9000/?name=World
 - http://localhost:9000/lambda-url/cargo-lambda-prototype/?name=World
+- cargo lambda invoke --data-example apigw-request cargo-lambda-prototype --output-format json
 
 ## Deploy
 
