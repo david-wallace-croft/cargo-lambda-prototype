@@ -27,8 +27,11 @@
 ## Deploy
 
 - cargo lambda build --release --arm64
-- TODO
-- cargo lambda deploy --enable-function-url --iam-role $env:IAMROLE
+- Set up your AWS credentials
+- cargo lambda deploy --enable-function-url
+- Note the URL
+- Test
+  - Example URL: https://\[abc123].lambda-url.\[region].on.aws/?name=World
 
 ## History
 
