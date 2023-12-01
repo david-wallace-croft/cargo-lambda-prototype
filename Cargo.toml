@@ -1,0 +1,27 @@
+[package]
+authors = ["David Wallace Croft <david@CroftSoft.com>"]
+# Use the categories from https://crates.io/categories
+# categories = ["category-name"]
+description = "Cargo Lambda Prototype"
+edition = "2021"
+homepage = "https://www.CroftSoft.com/"
+# https://doc.rust-lang.org/cargo/reference/manifest.html#the-keywords-field
+# keywords = ["keyword"]
+# Remark this line out if your project is not open source
+license = "MIT"
+name = "cargo-lambda-prototype"
+# Change this value to true when you publish to crates.io
+publish = false
+readme = "README.md"
+# Remark this line out if your project is not in a code repository
+repository = "https://github.com/david-wallace-croft/cargo-lambda-prototype"
+version = "0.0.0-SNAPSHOT"
+
+[dependencies]
+lambda_http = "0.8.3"
+lambda_runtime = "0.8.3"
+tokio = { version = "1", features = ["macros"] }
+tracing = { version = "0.1", features = ["log"] }
+tracing-subscriber = { version = "0.3", default-features = false, features = [
+  "fmt",
+] }
