@@ -61,7 +61,7 @@ aws iam list-attached-role-policies --role-name cargo-lambda-role-[UUID]
   - You cannot delete the role until you detach the policy
 ```
 aws iam detach-role-policy \
-  --role-name cargo-lambda-role-[UUID]
+  --role-name cargo-lambda-role-[UUID] \
   --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
 ```
 - Delete the role
