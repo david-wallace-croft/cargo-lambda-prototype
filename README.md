@@ -29,14 +29,32 @@
 - cargo lambda build --release --arm64
 - Set up your AWS credentials
 - cargo lambda deploy --enable-function-url
+  - This will automatically generate a role for you
 - Note the URL
 - Test
   - Example URL: https://\[abc123].lambda-url.\[region].on.aws/?name=World
 
 ## Undeploy
 
-- cargo lambda deploy --disable-function-url
-- TODO
+- aws lambda get-function --function-name cargo-lambda-prototype
+- Note the Amazon Resource Name (ARN) for the role
+- aws iam list-attached-role-policies --role-name cargo-lambda-role-\[UUID]
+- Note the ARN for the policy
+- Delete the Lambda function
+```
+aws lambda delete-function --function-name cargo-lambda-prototype
+```
+- Detach the managed policy from the role
+```
+aws iam detach-role-policy \
+  --role-name cargo-lambda-role-\[UUID]
+  --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+```
+- Delete the role
+```
+aws iam delete-role --role-name cargo-lambda-role-\[UUID]
+```
+- Optional: Deactivate your AWS access key until you need it again
 
 ## History
 
