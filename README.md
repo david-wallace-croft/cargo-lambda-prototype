@@ -33,6 +33,11 @@
 - Test
   - Example URL: https://\[abc123].lambda-url.\[region].on.aws/?name=World
 
+## Undeploy
+
+- cargo lambda deploy --disable-function-url
+- TODO
+
 ## History
 
 - Initial release: 2023-12-01
