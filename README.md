@@ -39,7 +39,7 @@ cargo lambda -v invoke \
 ```
 cargo lambda build --release --arm64
 ```
-- Set up your AWS credentials
+- Activate your AWS access key via the AWS Console
 - Deploy the Lambda to the cloud
   - This will automatically generate a role for you
   - Note the generated URL
@@ -77,7 +77,7 @@ aws iam detach-role-policy \
 ```
 aws iam delete-role --role-name cargo-lambda-role-[UUID]
 ```
-- Optional: Deactivate your AWS access key until you need it again
+- Deactivate your AWS access key via the AWS Console
 
 ## History
 
