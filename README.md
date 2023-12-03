@@ -115,6 +115,7 @@ cargo lambda deploy --enable-function-url --iam-role [ROLE-ARN]
 ```
 aws lambda delete-function --function-name cargo-lambda-prototype
 ```
+- Wait a bit for the Lambda function to be deleted
 - Delete the CFn stack with the Lambda execution role
 ```
 aws cloudformation delete-stack --stack-name cargo-lambda-prototype
