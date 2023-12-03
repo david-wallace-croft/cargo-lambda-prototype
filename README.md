@@ -9,6 +9,7 @@
 - Install cargo-lambda
   - scoop bucket add cargo-lambda https://github.com/cargo-lambda/scoop-cargo-lambda
   - scoop install cargo-lambda/cargo-lambda
+- Install the AWS CLI
 
 ## Usage
 
@@ -33,12 +34,16 @@ cargo lambda -v invoke \
 - Run the cargo lambda invoke command again
   - The output should show the changed name
 
-## Deploy
+## Build
 
+- You must build your Lambda before you can deploy it
 - Build a release for the ARM64 architecture
 ```
 cargo lambda build --release --arm64
 ```
+
+## Deploy
+
 - Activate your AWS access key via the AWS Console
 - Deploy the Lambda to the cloud
   - This will automatically generate a role for you
@@ -76,6 +81,43 @@ aws iam detach-role-policy \
 - Delete the role
 ```
 aws iam delete-role --role-name cargo-lambda-role-[UUID]
+```
+- Deactivate your AWS access key via the AWS Console
+
+## Deploy With a Pre-existing Lambda Execution Role
+
+- Activate your AWS access key via the AWS Console
+- Validate the CloudFormation (CFn) template file
+```
+aws cloudformation validate-template --template-body file://template.yaml
+```
+- Create a CloudFormation (CFn) stack that defines a Lambda execution role
+```
+aws cloudformation create-stack \
+  --capabilities CAPABILITY_NAMED_IAM \
+  --stack-name cargo-lambda-prototype \
+  --template-body file://template.yaml
+```
+- Get the Amazon Resource Name (ARN) for the created role
+  - You might have to wait a bit until the stack has been created
+```
+aws iam get-role --role-name cargo-lambda-prototype
+```
+- Deploy the Lambda
+  - Use the role ARN
+```
+cargo lambda deploy --enable-function-url --iam-role [ROLE-ARN]
+```
+
+## Undeploy With a Pre-existing Lambda Execution Role
+
+- Delete the Lambda function
+```
+aws lambda delete-function --function-name cargo-lambda-prototype
+```
+- Delete the CFn stack with the Lambda execution role
+```
+aws cloudformation delete-stack --stack-name cargo-lambda-prototype
 ```
 - Deactivate your AWS access key via the AWS Console
 
