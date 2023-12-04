@@ -136,8 +136,10 @@ sam deploy --guided
 ```
 
 ## Undeploy With SAM
+
+- Delete the CFn stack
 ```
-sam delete
+sam delete --stack-name cargo-lambda-prototype
 ```
 
 ## History
