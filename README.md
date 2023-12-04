@@ -10,6 +10,9 @@
   - scoop bucket add cargo-lambda https://github.com/cargo-lambda/scoop-cargo-lambda
   - scoop install cargo-lambda/cargo-lambda
 - Install the AWS CLI
+- Install the SAM CLI
+  - If you are using Git Bash for Windows
+    - You will need to enter "sam.cmd" instead of "sam" to run the SAM CLI
 
 ## Usage
 
@@ -37,12 +40,12 @@ cargo lambda -v invoke \
 ## Build
 
 - You must build your Lambda before you can deploy it
-- Build a release for the ARM64 architecture
+  - Optional: You can add --arm64 to build a release for the ARM64 architecture
 ```
-cargo lambda build --release --arm64
+cargo lambda build --release
 ```
 
-## Deploy
+## Deploy Using Cargo-Lambda
 
 - Activate your AWS access key via the AWS Console
 - Deploy the Lambda to the cloud
@@ -54,8 +57,10 @@ cargo lambda deploy --enable-function-url
 - Test
   - Example URL: https://\[abc123].lambda-url.\[region].on.aws/?name=World
 
-## Undeploy
+## Undeploy Using Cargo-Lambda
 
+- It appears that Cargo-Lambda does not currently have an undeploy option
+  - So you will need to undeploy using the AWS CLI
 - Get the Lambda function details
   - You will need the name of the role for the Lambda function in a later step
   - This was the role that was automatically created for you when you deployed
@@ -84,10 +89,43 @@ aws iam delete-role --role-name cargo-lambda-role-[UUID]
 ```
 - Deactivate your AWS access key via the AWS Console
 
-## Deploy With a Pre-existing Lambda Execution Role
+## Deploy Using the SAM CLI
 
 - Activate your AWS access key via the AWS Console
 - Validate the CloudFormation (CFn) template file
+  - This is a different template file than the one used in a previous section
+```
+aws cloudformation validate-template --template-body file://template.yaml
+```
+- Deploy the Lambda
+```
+sam deploy --guided
+```
+
+## Undeploy Using the SAM CLI
+
+- Delete the CFn stack for the Lambda function
+```
+sam delete --stack-name cargo-lambda-prototype
+```
+- Optional: Delete the CFn stack for the SAM S3 bucket
+  - The stack and S3 bucket might have been created during the guided deploy
+  - You cannot delete the stack until you have deleted the S3 bucket
+  - It is easiest to delete the S3 bucket from the AWS Console
+    - Because you have to empty it before you can delete it
+    - Including versioned objects
+  - The S3 bucket will have a name like the following with a random suffix
+    - aws-sam-cli-managed-default-samclisourcebucket-\[random]
+```
+aws cloudformation delete-stack --stack-name aws-sam-cli-managed-default
+```
+- Deactivate your AWS access key via the AWS Console
+
+## Deploy Using a CloudFormation Template for the Role
+
+- Activate your AWS access key via the AWS Console
+- Validate the CloudFormation (CFn) template file
+  - Note that the file is named role-template.yaml instead of template.yaml
 ```
 aws cloudformation validate-template --template-body file://role-template.yaml
 ```
@@ -109,7 +147,7 @@ aws iam get-role --role-name cargo-lambda-prototype
 cargo lambda deploy --enable-function-url --iam-role [ROLE-ARN]
 ```
 
-## Undeploy With a Pre-existing Lambda Execution Role
+## Undeploy Using a CloudFormation Template for the Role
 
 - Delete the Lambda function
 ```
@@ -119,38 +157,6 @@ aws lambda delete-function --function-name cargo-lambda-prototype
 - Delete the CFn stack with the Lambda execution role
 ```
 aws cloudformation delete-stack --stack-name cargo-lambda-prototype
-```
-- Deactivate your AWS access key via the AWS Console
-
-## Deploy With SAM
-
-- Activate your AWS access key via the AWS Console
-- Validate the CloudFormation (CFn) template file
-  - This is a different template file than the one used in a previous section
-```
-aws cloudformation validate-template --template-body file://template.yaml
-```
-- Deploy the Lambda
-```
-sam deploy --guided
-```
-
-## Undeploy With SAM
-
-- Delete the CFn stack for the Lambda function
-```
-sam delete --stack-name cargo-lambda-prototype
-```
-- Optional: Delete the CFn stack for the SAM S3 bucket
-  - The stack and S3 bucket might have been created during the guided deploy
-  - You cannot delete the stack until you have deleted the S3 bucket
-  - It is easiest to delete the S3 bucket from the AWS Console
-    - Because you have to empty it before you can delete it
-    - Including versioned objects
-  - The S3 bucket will have a name like the following with a random suffix
-    - aws-sam-cli-managed-default-samclisourcebucket-\[random]
-```
-aws cloudformation delete-stack --stack-name aws-sam-cli-managed-default
 ```
 - Deactivate your AWS access key via the AWS Console
 
