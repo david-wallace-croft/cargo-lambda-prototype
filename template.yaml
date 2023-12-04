@@ -5,13 +5,13 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: target/lambda/cargo-lambda-prototype/
-      FunctionUrlConfig:
-        AuthType: NONE
-        InvokeMode: BUFFERED
+      Events:
+        ApiEvent:
+          Type: HttpApi
       Handler: rust.handler
       Runtime: provided.al2023
 Outputs:
-  FunctionUrl:
-    Value: !GetAtt CargoLambdaFunctionUrl.FunctionUrl
-    Export:
-      Name: FunctionUrl
+  HttpApiUrl:
+    Description: URL of the HTTP API endpoint
+    Value:
+      Fn::Sub: "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/"
