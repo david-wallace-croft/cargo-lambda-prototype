@@ -145,6 +145,10 @@ sam delete --stack-name cargo-lambda-prototype
   - The stack and S3 bucket might have been created during the guided deploy
   - You cannot delete the stack until you have deleted the S3 bucket
   - It is easiest to delete the S3 bucket from the AWS Console
+    - Because you have to empty it before you can delete it
+    - Including versioned objects
+  - The S3 bucket will have a name like the following with a random suffix
+    - aws-sam-cli-managed-default-samclisourcebucket-\[random]
 ```
 aws cloudformation delete-stack --stack-name aws-sam-cli-managed-default
 ```
