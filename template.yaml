@@ -1,18 +1,17 @@
 AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
 Resources:
-  CargoLambdaRole:
-    Type: AWS::IAM::Role
+  CargoLambdaFunction:
+    Type: AWS::Serverless::Function
     Properties:
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service:
-                - lambda.amazonaws.com
-            Action:
-              - sts:AssumeRole
-      ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
-      Path: /
-      RoleName: "cargo-lambda-prototype"
+      CodeUri: target/lambda/cargo-lambda-prototype/
+      FunctionUrlConfig:
+        AuthType: NONE
+        InvokeMode: BUFFERED
+      Handler: rust.handler
+      Runtime: provided.al2023
+Outputs:
+  FunctionUrl:
+    Value: !GetAtt CargoLambdaFunctionUrl.FunctionUrl
+    Export:
+      Name: FunctionUrl
