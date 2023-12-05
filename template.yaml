@@ -1,17 +1,26 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Resources:
+  CargoLambdaHttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      Description: Cargo-Lambda Prototype HTTP API
+      FailOnWarnings: true
   CargoLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: target/lambda/cargo-lambda-prototype/
       Events:
-        ApiEvent:
+        CargoLambdaEvent:
           Type: HttpApi
+          Properties:
+            ApiId: !Ref CargoLambdaHttpApi
+            Method: GET
+            Path: /
       Handler: rust.handler
       Runtime: provided.al2023
 Outputs:
-  HttpApiUrl:
-    Description: URL of the HTTP API endpoint
+  CargoLambdaHttpApiUrl:
+    Description: URL of the Cargo-Lambda Prototype HTTP API endpoint
     Value:
-      Fn::Sub: "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/"
+      Fn::Sub: "https://${CargoLambdaHttpApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/"
