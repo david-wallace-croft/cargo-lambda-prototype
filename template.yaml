@@ -6,6 +6,22 @@ Resources:
     Properties:
       Description: Cargo-Lambda Prototype HTTP API
       FailOnWarnings: true
+      # TODO
+      # https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-httpapi.html
+      # https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-property-httpapi-httpapiauth.html
+      # https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-access-control.html
+      # https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-jwt-authorizer.html
+      # Auth:
+      #   DefaultAuthorizer: OAuth2
+      #   Authorizers:
+      #     OAuth2:
+      #       AuthorizationScopes:
+      #         - scope4
+      #       JwtConfiguration:
+      #         issuer: "https://www.example.com/v1/connect/oauth2"
+      #         audience:
+      #           - MyApi
+      #       IdentitySource: "$request.querystring.param"
   CargoLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
