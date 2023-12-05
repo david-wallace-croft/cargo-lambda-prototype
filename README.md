@@ -1,5 +1,7 @@
-# Cargo Lambda Prototype
+# Cargo-Lambda Prototype
 
+- Deploy a serverless Function-as-a-Service in the Rust programming language
+- Uses Cargo-Lambda, AWS Lambda, and AWS CloudFormation
 - Adapted from https://www.cargo-lambda.info/
 
 ## Tools Installation for Windows
