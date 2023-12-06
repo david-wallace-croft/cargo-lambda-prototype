@@ -56,7 +56,6 @@ cargo lambda -v invoke \
 ## Build
 
 - You must build your Lambda before you can deploy it
-  - Optional: You can add --arm64 to build a release for the ARM64 architecture
 ```
 cargo lambda build --release
 ```
