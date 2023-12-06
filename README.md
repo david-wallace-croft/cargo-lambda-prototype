@@ -18,13 +18,17 @@
   - If you are using Git Bash for Windows
     - You will need to enter "sam.cmd" instead of "sam" to run the SAM CLI
 
-## Cargo-Lambda Installation for Windows
+## Cargo-Lambda Installation
 
-- Install scoop
-  - https://scoop.sh/
-- Install cargo-lambda
-  - scoop bucket add cargo-lambda https://github.com/cargo-lambda/scoop-cargo-lambda
-  - scoop install cargo-lambda/cargo-lambda
+- https://www.cargo-lambda.info/guide/installation.html
+- Installation instructions for the Windows operating system
+  - Install scoop
+    - https://scoop.sh/
+  - Install cargo-lambda
+```
+scoop bucket add cargo-lambda https://github.com/cargo-lambda/scoop-cargo-lambda
+scoop install cargo-lambda/cargo-lambda
+```
 
 ## Usage
 
