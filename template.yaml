@@ -1,27 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Resources:
-  CargoLambdaHttpApi:
-    Type: AWS::Serverless::HttpApi
-    Properties:
-      Description: Cargo-Lambda Prototype HTTP API
-      FailOnWarnings: true
-      # TODO
-      # https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-httpapi.html
-      # https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-property-httpapi-httpapiauth.html
-      # https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-access-control.html
-      # https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-jwt-authorizer.html
-      # Auth:
-      #   DefaultAuthorizer: OAuth2
-      #   Authorizers:
-      #     OAuth2:
-      #       AuthorizationScopes:
-      #         - scope4
-      #       JwtConfiguration:
-      #         issuer: "https://www.example.com/v1/connect/oauth2"
-      #         audience:
-      #           - MyApi
-      #       IdentitySource: "$request.querystring.param"
   CargoLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -29,14 +8,10 @@ Resources:
       Events:
         CargoLambdaEvent:
           Type: HttpApi
-          Properties:
-            ApiId: !Ref CargoLambdaHttpApi
-            Method: GET
-            Path: /
       Handler: rust.handler
       Runtime: provided.al2023
 Outputs:
   CargoLambdaHttpApiUrl:
     Description: URL of the Cargo-Lambda Prototype HTTP API endpoint
     Value:
-      Fn::Sub: "https://${CargoLambdaHttpApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/"
+      Fn::Sub: "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/"

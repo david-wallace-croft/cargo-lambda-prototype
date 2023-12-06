@@ -95,16 +95,16 @@ aws iam delete-role --role-name cargo-lambda-role-[UUID]
 
 - Activate your AWS access key via the AWS Console
 - Validate the CloudFormation (CFn) template file
-  - Note that the file is named role-template.yaml instead of template.yaml
+  - Note that the file is named template-role.yaml instead of template.yaml
 ```
-aws cloudformation validate-template --template-body file://role-template.yaml
+aws cloudformation validate-template --template-body file://template-role.yaml
 ```
 - Create a CloudFormation (CFn) stack that defines a Lambda execution role
 ```
 aws cloudformation create-stack \
   --capabilities CAPABILITY_NAMED_IAM \
   --stack-name cargo-lambda-prototype \
-  --template-body file://role-template.yaml
+  --template-body file://template-role.yaml
 ```
 - Get the Amazon Resource Name (ARN) for the created role
   - You might have to wait a bit until the stack has been created
@@ -150,7 +150,7 @@ sam deploy --guided
 
 - Delete the CFn stack for the Lambda function
 ```
-sam delete --stack-name cargo-lambda-prototype
+sam delete
 ```
 - Optional: Delete the CFn stack for the SAM S3 bucket
   - The stack and S3 bucket might have been created during the guided deploy
