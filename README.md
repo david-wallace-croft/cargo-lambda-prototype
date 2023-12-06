@@ -1,20 +1,30 @@
 # Cargo-Lambda Prototype
 
+[![MIT licensed][mit-badge]][mit-url]
+
+[mit-badge]: https://img.shields.io/badge/license-MIT-blue.svg
+[mit-url]: https://github.com/david-wallace-croft/dioxus-prototype/blob/main/LICENSE.txt
+
 - Deploy a serverless Function-as-a-Service in the Rust programming language
-- Uses Cargo-Lambda, AWS Lambda, and AWS CloudFormation
+- Uses Cargo-Lambda, Amazon Web Services (AWS) Lambda, and AWS CloudFormation
 - Adapted from https://www.cargo-lambda.info/
 
-## Tools Installation for Windows
+## CLI Installation
+
+- Install the AWS Command-Line Interface (CLI)
+  - https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+- Install the AWS Serverless Application Model (SAM) CLI
+  - https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html
+  - If you are using Git Bash for Windows
+    - You will need to enter "sam.cmd" instead of "sam" to run the SAM CLI
+
+## Cargo-Lambda Installation for Windows
 
 - Install scoop
   - https://scoop.sh/
 - Install cargo-lambda
   - scoop bucket add cargo-lambda https://github.com/cargo-lambda/scoop-cargo-lambda
   - scoop install cargo-lambda/cargo-lambda
-- Install the AWS CLI
-- Install the SAM CLI
-  - If you are using Git Bash for Windows
-    - You will need to enter "sam.cmd" instead of "sam" to run the SAM CLI
 
 ## Usage
 
