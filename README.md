@@ -1,4 +1,4 @@
-# Cargo-Lambda Prototype
+# Cargo Lambda Prototype
 
 [![MIT licensed][mit-badge]][mit-url]
 
