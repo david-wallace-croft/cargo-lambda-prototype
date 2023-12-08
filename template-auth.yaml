@@ -1,29 +1,94 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
+# https://github.com/awsdocs/amazon-api-gateway-developer-guide/blob/main/cloudformation-templates/HTTP/http-with-jwt-auth.yaml
 Resources:
+  CargoLambdaUserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName: cargo-lambda-http-api-user-pool
+      AutoVerifiedAttributes:
+        - email
+      Schema:
+        - Name: name
+          AttributeDataType: String
+          Mutable: true
+          Required: true
+        - Name: email
+          AttributeDataType: String
+          Mutable: false
+          Required: true
+  CargoLambdaUserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      AllowedOAuthFlows:
+        - implicit
+      AllowedOAuthScopes:
+        - aws.cognito.signin.user.admin
+        - email
+        - openid
+        - profile
+      AllowedOAuthFlowsUserPoolClient: true
+      ClientName: cargo-lambda-http-api-client
+      CallbackURLs:
+        - !Sub https://cargo-lambda-http-api.execute-api.${AWS::Region}.${AWS::URLSuffix}
+      ExplicitAuthFlows:
+        - ALLOW_USER_PASSWORD_AUTH
+        - ALLOW_REFRESH_TOKEN_AUTH
+      # GenerateSecret: false
+      UserPoolId: !Ref CargoLambdaUserPool
+      SupportedIdentityProviders:
+        - COGNITO
+  # CargoLambdaJwtAuthorizer:
+  #   Type: AWS::ApiGatewayV2::Authorizer
+  #   Properties:
+  #     # ApiId: !Ref CargoLambdaHttpApi
+  #     AuthorizerType: JWT
+  #     IdentitySource:
+  #       - "$request.querystring.access_token"
+  #     Name: cargo-lambda-jwt-authorizer
   CargoLambdaHttpApi:
+    # https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-httpapi.html
     Type: AWS::Serverless::HttpApi
     Properties:
-      # TODO: finish Auth
-      # https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-httpapi.html
       # https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-property-httpapi-httpapiauth.html
-      # https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-access-control.html
-      # https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-jwt-authorizer.html
-      # Auth:
-      #   Authorizers:
-      #     CargoLambdaOAuth2Authorizer:
-      #       # AuthorizationScopes:
-      #       #   - scope1
-      #       #   - scope2
-      #       IdentitySource: "$request.querystring.param"
-      #       JwtConfiguration:
-      #         issuer: "https://www.example.com/v1/connect/oauth2"
-      #         audience:
-      #           - CargoLambdaHttpApi
-      #   DefaultAuthorizer: CargoLambdaOAuth2Authorizer
-      #   EnableIamAuthorizer: false
+      # https://docs.aws.amazon.com/apigatewayv2/latest/api-reference/apis-apiid-authorizers-authorizerid.html
+      Auth:
+        # TODO: finish Auth
+        # https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-jwt-authorizer.html
+        Authorizers:
+          CargoLambdaJwtAuthorizer:
+            # AuthorizationScopes:
+            #   - scope1
+            #   - scope2
+            IdentitySource: "$request.querystring.param"
+            # JwtConfiguration:
+            #   ~
+            #   # issuer: !Sub https://cognito-idp.${AWS::Region}.${AWS::URLSuffix}/${CargoLambdaUserPool}
+            #   # audience: !Ref CargoLambdaUserPoolClient
+            JwtConfiguration:
+              Audience:
+                - !Ref CargoLambdaUserPoolClient
+              Issuer: !Sub https://cognito-idp.${AWS::Region}.${AWS::URLSuffix}/${CargoLambdaUserPool}
+        DefaultAuthorizer: CargoLambdaJwtAuthorizer
+        # EnableIamAuthorizer: false
       Description: Cargo-Lambda Prototype HTTP API
       FailOnWarnings: true
+      Name: cargo-lambda-http-api
+  # CargoLambdaApiGatewayManagedOverrides:
+  #   Type: AWS::ApiGatewayV2::ApiGatewayManagedOverrides
+  #   Properties:
+  #     ApiId: !Ref CargoLambdaHttpApi
+  #     Route:
+  #       AuthorizationType: JWT
+  #       AuthorizerId: !Ref CargoLambdaJwtAuthorizer
+  CargoLambdaUserPoolDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      Domain: !Join
+        - "-"
+        - - !Ref CargoLambdaHttpApi
+          - !Ref CargoLambdaUserPoolClient
+      UserPoolId: !Ref CargoLambdaUserPool
   CargoLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -42,3 +107,5 @@ Outputs:
     Description: URL of the Cargo-Lambda Prototype HTTP API endpoint
     Value:
       Fn::Sub: "https://${CargoLambdaHttpApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/"
+  # SignupURL:
+  #   Value: !Sub https://${HostedUI}.auth.${AWS::Region}.amazoncognito.com/login?client_id=${AppClient}&response_type=token&scope=email+profile&redirect_uri=https://${MyAPI}.execute-api.${AWS::Region}.amazonaws.com
