@@ -38,14 +38,6 @@ Resources:
       UserPoolId: !Ref CargoLambdaUserPool
       SupportedIdentityProviders:
         - COGNITO
-  # CargoLambdaJwtAuthorizer:
-  #   Type: AWS::ApiGatewayV2::Authorizer
-  #   Properties:
-  #     # ApiId: !Ref CargoLambdaHttpApi
-  #     AuthorizerType: JWT
-  #     IdentitySource:
-  #       - "$request.querystring.access_token"
-  #     Name: cargo-lambda-jwt-authorizer
   CargoLambdaHttpApi:
     # https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-httpapi.html
     Type: AWS::Serverless::HttpApi
@@ -61,10 +53,6 @@ Resources:
             #   - scope1
             #   - scope2
             IdentitySource: "$request.querystring.param"
-            # JwtConfiguration:
-            #   ~
-            #   # issuer: !Sub https://cognito-idp.${AWS::Region}.${AWS::URLSuffix}/${CargoLambdaUserPool}
-            #   # audience: !Ref CargoLambdaUserPoolClient
             JwtConfiguration:
               Audience:
                 - !Ref CargoLambdaUserPoolClient
@@ -74,13 +62,6 @@ Resources:
       Description: Cargo-Lambda Prototype HTTP API
       FailOnWarnings: true
       Name: cargo-lambda-http-api
-  # CargoLambdaApiGatewayManagedOverrides:
-  #   Type: AWS::ApiGatewayV2::ApiGatewayManagedOverrides
-  #   Properties:
-  #     ApiId: !Ref CargoLambdaHttpApi
-  #     Route:
-  #       AuthorizationType: JWT
-  #       AuthorizerId: !Ref CargoLambdaJwtAuthorizer
   CargoLambdaUserPoolDomain:
     Type: AWS::Cognito::UserPoolDomain
     Properties:
@@ -107,5 +88,6 @@ Outputs:
     Description: URL of the Cargo-Lambda Prototype HTTP API endpoint
     Value:
       Fn::Sub: "https://${CargoLambdaHttpApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/"
-  # SignupURL:
-  #   Value: !Sub https://${HostedUI}.auth.${AWS::Region}.amazoncognito.com/login?client_id=${AppClient}&response_type=token&scope=email+profile&redirect_uri=https://${MyAPI}.execute-api.${AWS::Region}.amazonaws.com
+  # TODO: Test and rename this
+  SignupUrl:
+    Value: !Sub https://${CargoLambdaUserPoolDomain}.auth.${AWS::Region}.amazoncognito.com/login?client_id=${CargoLambdaUserPoolClient}&response_type=token&scope=email+profile&redirect_uri=https://${CargoLambdaHttpApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}
