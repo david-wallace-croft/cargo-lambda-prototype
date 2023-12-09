@@ -23,18 +23,23 @@ Resources:
       AllowedOAuthFlows:
         - implicit
       AllowedOAuthScopes:
-        - aws.cognito.signin.user.admin
+        # - aws.cognito.signin.user.admin
         - email
         - openid
         - profile
       AllowedOAuthFlowsUserPoolClient: true
       ClientName: cargo-lambda-http-api-client
       CallbackURLs:
-        - !Sub https://cargo-lambda-http-api.execute-api.${AWS::Region}.${AWS::URLSuffix}
+        - !Join
+          - ""
+          - - "https://cargo-lambda-http-api.execute-api."
+            - !Ref AWS::Region
+            - "."
+            - !Ref AWS::URLSuffix
       ExplicitAuthFlows:
         - ALLOW_USER_PASSWORD_AUTH
         - ALLOW_REFRESH_TOKEN_AUTH
-      # GenerateSecret: false
+      GenerateSecret: true
       UserPoolId: !Ref CargoLambdaUserPool
       SupportedIdentityProviders:
         - COGNITO
@@ -45,7 +50,6 @@ Resources:
       # https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-property-httpapi-httpapiauth.html
       # https://docs.aws.amazon.com/apigatewayv2/latest/api-reference/apis-apiid-authorizers-authorizerid.html
       Auth:
-        # TODO: finish Auth
         # https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-jwt-authorizer.html
         Authorizers:
           CargoLambdaJwtAuthorizer:
@@ -56,7 +60,14 @@ Resources:
             JwtConfiguration:
               Audience:
                 - !Ref CargoLambdaUserPoolClient
-              Issuer: !Sub https://cognito-idp.${AWS::Region}.${AWS::URLSuffix}/${CargoLambdaUserPool}
+              Issuer: !Join
+                - ""
+                - - "https://cognito-idp."
+                  - !Ref "AWS::Region"
+                  - "."
+                  - !Ref "AWS::URLSuffix"
+                  - "/"
+                  - !Ref CargoLambdaUserPool
         DefaultAuthorizer: CargoLambdaJwtAuthorizer
         # EnableIamAuthorizer: false
       Description: Cargo-Lambda Prototype HTTP API
@@ -86,8 +97,28 @@ Resources:
 Outputs:
   CargoLambdaHttpApiUrl:
     Description: URL of the Cargo-Lambda Prototype HTTP API endpoint
-    Value:
-      Fn::Sub: "https://${CargoLambdaHttpApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/"
-  # TODO: Test and rename this
-  SignupUrl:
-    Value: !Sub https://${CargoLambdaUserPoolDomain}.auth.${AWS::Region}.amazoncognito.com/login?client_id=${CargoLambdaUserPoolClient}&response_type=token&scope=email+profile&redirect_uri=https://${CargoLambdaHttpApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}
+    Value: !Join
+      - ""
+      - - "https://"
+        - !Ref CargoLambdaHttpApi
+        - ".execute-api."
+        - !Ref "AWS::Region"
+        - "."
+        - !Ref "AWS::URLSuffix"
+        - "/"
+  # TODO: Test this
+  CargoLambdaSignupUrl:
+    Value: !Join
+      - ""
+      - - "https://"
+        - !Ref CargoLambdaUserPoolDomain
+        - ".auth."
+        - !Ref "AWS::Region"
+        - ".amazoncognito.com/login?client_id="
+        - !Ref CargoLambdaUserPoolClient
+        - "&response_type=token&scope=email+profile&redirect_uri=https://"
+        - !Ref CargoLambdaHttpApi
+        - ".execute-api."
+        - !Ref "AWS::Region"
+        - "."
+        - !Ref "AWS::URLSuffix"
