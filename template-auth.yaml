@@ -19,6 +19,7 @@ Resources:
     Properties:
       # TODO: reduce token lifetimes
       AllowedOAuthFlows:
+        # TODO: Switch off of implicit
         - implicit
       AllowedOAuthScopes:
         # - aws.cognito.signin.user.admin
