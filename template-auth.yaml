@@ -6,14 +6,10 @@ Resources:
   CargoLambdaUserPool:
     Type: AWS::Cognito::UserPool
     Properties:
-      UserPoolName: cargo-lambda-http-api-user-pool
+      # UserPoolName: cargo-lambda-http-api-user-pool
       AutoVerifiedAttributes:
         - email
       Schema:
-        - Name: name
-          AttributeDataType: String
-          Mutable: true
-          Required: true
         - Name: email
           AttributeDataType: String
           Mutable: false
@@ -30,7 +26,7 @@ Resources:
         - openid
         # - profile
       AllowedOAuthFlowsUserPoolClient: true
-      ClientName: cargo-lambda-http-api-client
+      # ClientName: cargo-lambda-http-api-client
       CallbackURLs:
         - "https://localhost"
       ExplicitAuthFlows:
@@ -69,7 +65,7 @@ Resources:
         # EnableIamAuthorizer: false
       Description: Cargo-Lambda Prototype HTTP API
       FailOnWarnings: true
-      Name: cargo-lambda-http-api
+      # Name: cargo-lambda-http-api
   CargoLambdaUserPoolDomain:
     Type: AWS::Cognito::UserPoolDomain
     Properties:
@@ -104,7 +100,6 @@ Outputs:
         - "."
         - !Ref "AWS::URLSuffix"
         - "/"
-  # TODO: Test this
   CargoLambdaSignupUrl:
     Value: !Join
       - ""
@@ -112,7 +107,9 @@ Outputs:
         - !Ref CargoLambdaUserPoolDomain
         - ".auth."
         - !Ref "AWS::Region"
-        - ".amazoncognito.com/login?client_id="
+        - ".amazoncognito.com"
+        - "/login"
+        - "?client_id="
         - !Ref CargoLambdaUserPoolClient
         - "&response_type=token"
         - "&scope=email+openid"
