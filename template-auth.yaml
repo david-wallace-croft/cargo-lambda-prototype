@@ -19,17 +19,18 @@ Resources:
     Properties:
       # TODO: reduce token lifetimes
       AllowedOAuthFlows:
+        - code
         # TODO: Switch off of implicit
-        - implicit
+        # - implicit
       AllowedOAuthScopes:
         # - aws.cognito.signin.user.admin
-        - email
+        # - email
         - openid
         # - profile
       AllowedOAuthFlowsUserPoolClient: true
       # ClientName: cargo-lambda-http-api-client
       CallbackURLs:
-        - "https://localhost"
+        - "http://localhost:8080"
       ExplicitAuthFlows:
         - ALLOW_USER_PASSWORD_AUTH
         - ALLOW_REFRESH_TOKEN_AUTH
@@ -112,6 +113,6 @@ Outputs:
         - "/login"
         - "?client_id="
         - !Ref CargoLambdaUserPoolClient
-        - "&response_type=token"
-        - "&scope=email+openid"
-        - "&redirect_uri=https%3A%2F%2Flocalhost"
+        - "&response_type=code"
+        - "&scope=openid"
+        - "&redirect_uri=https%3A%2F%2Flocalhost%3A8080"
