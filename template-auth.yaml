@@ -53,6 +53,7 @@ Resources:
             #   - scope2
             IdentitySource: "$request.header.Authorization"
             JwtConfiguration:
+              # TODO: add PKCE
               Audience:
                 - !Ref CargoLambdaUserPoolClient
               Issuer: !Join
@@ -115,4 +116,4 @@ Outputs:
         - !Ref CargoLambdaUserPoolClient
         - "&response_type=code"
         - "&scope=openid"
-        - "&redirect_uri=https%3A%2F%2Flocalhost%3A8080"
+        - "&redirect_uri=http%3A%2F%2Flocalhost%3A8080"

@@ -178,6 +178,40 @@ aws cloudformation delete-stack --stack-name aws-sam-cli-managed-default
 ```
 - Deactivate your AWS access key via the AWS Console
 
+## Deploy Using OIDC
+
+- TODO: This section is incomplete
+- This example permits OpenID Connect (OIDC) on top of OAuth 2.0
+- Validate the CloudFormation (CFn) template file
+  - This is a different template file than the one used in a previous section
+```
+aws cloudformation validate-template --template-body file://template-auth.yaml
+```
+- Deploy the Lambda
+  - Note the outputs CargoLambdaHttpApiUrl and CargoLambdaSignupUrl
+```
+sam deploy -t template-auth.yaml --guided
+```
+- Test by using the output URL
+  - You should get "Unauthorized" as the response
+  - Example: https://a1b2c3.execute-api.us-east-1.amazonaws.com/?name=World
+- Open your browser
+- Open the browser developer console (F12) and start monitoring Network
+- Enter the CargoLambdaSignupUrl in your browser
+- Click on "Sign up" to create a new user account
+- Log in with the new user account
+- Note in the developer console Network monitoring the 302 redirect location
+  - There should be a code parameter
+- TODO
+
+## Undeploy Using OIDC
+
+- Delete the CFn stack for the Lambda function
+```
+sam delete
+```
+- Deactivate your AWS access key via the AWS Console
+
 ## History
 
 - Initial release: 2023-12-01
