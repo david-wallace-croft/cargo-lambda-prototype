@@ -227,7 +227,7 @@ curl -X GET \
   https://a1b2c3-d4e5f6.auth.us-east-1.amazoncognito.com/oauth2/userInfo \
   -H 'Authorization: Bearer <access_token>'
 ```
-- Use the access_token to access the lambda function
+- Use the access_token to access the Lambda function
   - You will not get "Unauthorized" this time
 ```
 curl -X GET \
