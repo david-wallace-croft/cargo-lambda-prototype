@@ -7,9 +7,6 @@
 
 - Deploy a Rust programming language serverless Function-as-a-Service (FaaS)
 - Uses Amazon Web Services (AWS) Lambda, AWS CloudFormation (CFn), and Cargo Lambda
-- Adapted from the following online resources:
-  - https://www.cargo-lambda.info/
-  - https://dev.to/jinlianwang/user-authentication-through-authorization-code-grant-type-using-aws-cognito-1f93
 
 ## CLI Installation
 
@@ -237,6 +234,12 @@ curl -X GET \
 sam delete
 ```
 - Deactivate your AWS access key via the AWS Console
+
+## Links
+
+- https://www.cargo-lambda.info/
+- https://dev.to/jinlianwang/user-authentication-through-authorization-code-grant-type-using-aws-cognito-1f93
+
 
 ## History
 
