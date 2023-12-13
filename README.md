@@ -195,18 +195,26 @@ sam deploy -t template-auth.yaml --guided
   - Example: https://a1b2c3.execute-api.us-east-1.amazonaws.com/?name=World
 - Open your browser
 - Open the browser developer console (F12) and start monitoring Network
+- Randomly generate a PKCE code verifier value and compute the code challenge
+  - Proof Key for Code Exchange (PKCE)
+  - The code challenge is computed by hashing and encoding the code verifier
+  - There are online applications which will generate these values for you
+  - https://tonyxu-io.github.io/pkce-generator/
 - Enter the CargoLambdaSignupUrl in your browser
+  - Replace the placeholder code_challenge value parameter value
 - Click on "Sign up" to create a new user account
 - Log in with the new user account
 - Note in the developer console Network monitoring the 302 redirect location
   - There should be a code parameter with a UUID value
 - Exchange the code for tokens
+  - Replace the client_id, code, and code_verifier values
 ```
 curl --location --request POST \
   https://a1b2c3-d4e5f6.auth.us-east-1.amazoncognito.com/oauth2/token \
   --header 'Content-Type: application/x-www-form-urlencoded' \
   --data-urlencode 'client_id=d4e5f6' \
   --data-urlencode 'code=g7h8i9' \
+  --data-urlencode 'code_verifier=X1-y2_Z3' \
   --data-urlencode 'grant_type=authorization_code' \
   --data-urlencode 'scope=openid' \
   --data-urlencode 'redirect_uri=http://localhost:8080'

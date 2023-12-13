@@ -114,6 +114,8 @@ Outputs:
         - "/login"
         - "?client_id="
         - !Ref CargoLambdaUserPoolClient
+        - "&code_challenge=A1b2C3"
+        - "&code_challenge_method=S256"
+        - "&redirect_uri=http%3A%2F%2Flocalhost%3A8080"
         - "&response_type=code"
         - "&scope=openid"
-        - "&redirect_uri=http%3A%2F%2Flocalhost%3A8080"
