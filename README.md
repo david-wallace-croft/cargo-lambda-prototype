@@ -239,7 +239,7 @@ sam delete
 
 - https://www.cargo-lambda.info/
 - https://dev.to/jinlianwang/user-authentication-through-authorization-code-grant-type-using-aws-cognito-1f93
-
+- https://youtu.be/Mdh_2PXe9i8?si=mJkzMTkuPvMLAgA-
 
 ## History
 
