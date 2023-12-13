@@ -6,7 +6,7 @@
 [mit-url]: https://github.com/david-wallace-croft/dioxus-prototype/blob/main/LICENSE.txt
 
 - Deploy a Rust programming language serverless Function-as-a-Service (FaaS)
-- Uses Cargo-Lambda, Amazon Web Services (AWS) Lambda, and AWS CloudFormation
+- Uses Amazon Web Services (AWS) Lambda, AWS CloudFormation (CFn), and Cargo Lambda
 - Adapted from https://www.cargo-lambda.info/
 
 ## CLI Installation
@@ -18,13 +18,13 @@
   - If you are using Git Bash for Windows
     - You will need to enter "sam.cmd" instead of "sam" to run the SAM CLI
 
-## Cargo-Lambda Installation
+## Cargo Lambda Installation
 
 - https://www.cargo-lambda.info/guide/installation.html
 - Installation instructions for the Windows operating system
   - Install scoop
     - https://scoop.sh/
-  - Install cargo-lambda
+  - Install Cargo Lambda
 ```
 scoop bucket add cargo-lambda https://github.com/cargo-lambda/scoop-cargo-lambda
 scoop install cargo-lambda/cargo-lambda
@@ -60,7 +60,7 @@ cargo lambda -v invoke \
 cargo lambda build --release
 ```
 
-## Deploy Using Cargo-Lambda
+## Deploy Using Cargo Lambda
 
 - Activate your AWS access key via the AWS Console
 - Deploy the Lambda to the cloud
@@ -72,9 +72,9 @@ cargo lambda deploy --enable-function-url
 - Test
   - Example URL: https://\[abc123].lambda-url.\[region].on.aws/?name=World
 
-## Undeploy Using Cargo-Lambda
+## Undeploy Using Cargo Lambda
 
-- It appears that Cargo-Lambda does not currently have an undeploy option
+- It appears that Cargo Lambda does not currently have an undeploy option
   - So you will need to undeploy using the AWS CLI
 - Get the Lambda function details
   - You will need the name of the role for the Lambda function in a later step
