@@ -217,7 +217,7 @@ curl --location --request POST \
 - Use the access_token to get the user information
 ```
 curl -X GET \
-  https://28ye46fj0a-35so54765o0ofbeeb5knk08293.auth.us-east-1.amazoncognito.com/oauth2/userInfo \
+  https://a1b2c3-d4e5f6.auth.us-east-1.amazoncognito.com/oauth2/userInfo \
   -H 'Authorization: Bearer <access_token>'
 ```
 - Use the access_token to access the lambda function
