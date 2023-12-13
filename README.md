@@ -178,10 +178,9 @@ aws cloudformation delete-stack --stack-name aws-sam-cli-managed-default
 ```
 - Deactivate your AWS access key via the AWS Console
 
-## Deploy Using OIDC
+## Deploy Using Authentication
 
-- TODO: This section is incomplete
-- This example permits OpenID Connect (OIDC) on top of OAuth 2.0
+- This example uses OpenID Connect (OIDC) on top of OAuth 2.0
 - Validate the CloudFormation (CFn) template file
   - This is a different template file than the one used in a previous section
 ```
@@ -201,10 +200,35 @@ sam deploy -t template-auth.yaml --guided
 - Click on "Sign up" to create a new user account
 - Log in with the new user account
 - Note in the developer console Network monitoring the 302 redirect location
-  - There should be a code parameter
-- TODO
+  - There should be a code parameter with a UUID value
+- Exchange the code for tokens
+```
+curl --location --request POST \
+  https://a1b2c3-d4e5f6.auth.us-east-1.amazoncognito.com/oauth2/token \
+  --header 'Content-Type: application/x-www-form-urlencoded' \
+  --data-urlencode 'client_id=d4e5f6' \
+  --data-urlencode 'code=g7h8i9' \
+  --data-urlencode 'grant_type=authorization_code' \
+  --data-urlencode 'scope=openid' \
+  --data-urlencode 'redirect_uri=http://localhost:8080'
+```
+- Extract the access_token from the response
+  - It might be between the id_token and the refresh_token
+- Use the access_token to get the user information
+```
+curl -X GET \
+  https://28ye46fj0a-35so54765o0ofbeeb5knk08293.auth.us-east-1.amazoncognito.com/oauth2/userInfo \
+  -H 'Authorization: Bearer <access_token>'
+```
+- Use the access_token to access the lambda function
+  - You will not get "Unauthorized" this time
+```
+curl -X GET \
+  https://a1b2c3.execute-api.us-east-1.amazonaws.com/ \
+  -H 'Authorization: Bearer <access_token>'
+```
 
-## Undeploy Using OIDC
+## Undeploy Using Authentication
 
 - Delete the CFn stack for the Lambda function
 ```
