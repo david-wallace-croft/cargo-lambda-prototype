@@ -175,6 +175,7 @@ sam delete
 ```
 aws cloudformation delete-stack --stack-name aws-sam-cli-managed-default
 ```
+- Optional: Delete your CloudWatch log group
 - Deactivate your AWS access key via the AWS Console
 
 ## Deploy Using Authentication
@@ -238,6 +239,12 @@ curl -X GET \
 curl -X GET \
   https://a1b2c3.execute-api.us-east-1.amazonaws.com/ \
   -H 'Authorization: Bearer <access_token>'
+```
+- You can also use the id_token to access the Lambda function
+```
+curl -X GET \
+  https://a1b2c3.execute-api.us-east-1.amazonaws.com/ \
+  -H 'Authorization: Bearer <id_token>'
 ```
 
 ## Undeploy Using Authentication
