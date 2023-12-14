@@ -191,8 +191,12 @@ aws cloudformation validate-template --template-body file://template-auth.yaml
 sam deploy -t template-auth.yaml --guided
 ```
 - Test by using the output URL
+  - In your browser or from the command line
   - You should get "Unauthorized" as the response
-  - Example: https://a1b2c3.execute-api.us-east-1.amazonaws.com/?name=World
+  - Example
+```
+curl https://a1b2c3.execute-api.us-east-1.amazonaws.com/?name=World
+```
 - Open your browser
 - Open the browser developer console (F12) and start monitoring Network
 - Randomly generate a PKCE code verifier value and compute the code challenge
@@ -201,6 +205,7 @@ sam deploy -t template-auth.yaml --guided
   - There are online applications which will generate these values for you
   - https://tonyxu-io.github.io/pkce-generator/
 - Enter the CargoLambdaSignupUrl in your browser
+  - This was one of the outputs of the CFn template
   - Replace the placeholder code_challenge value parameter value
 - Click on "Sign up" to create a new user account
 - Log in with the new user account
