@@ -101,6 +101,7 @@ aws iam detach-role-policy \
 ```
 aws iam delete-role --role-name cargo-lambda-role-[UUID]
 ```
+- Optional: Delete your CloudWatch log group
 - Deactivate your AWS access key via the AWS Console
 
 ## Deploy Using a CloudFormation Template for the Role
@@ -140,6 +141,7 @@ aws lambda delete-function --function-name cargo-lambda-prototype
 ```
 aws cloudformation delete-stack --stack-name cargo-lambda-prototype
 ```
+- Optional: Delete your CloudWatch log group
 - Deactivate your AWS access key via the AWS Console
 
 ## Deploy Using the SAM CLI
@@ -175,7 +177,6 @@ sam delete
 ```
 aws cloudformation delete-stack --stack-name aws-sam-cli-managed-default
 ```
-- Optional: Delete your CloudWatch log group
 - Deactivate your AWS access key via the AWS Console
 
 ## Deploy Using Authentication
