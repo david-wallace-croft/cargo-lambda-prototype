@@ -67,7 +67,7 @@ Resources:
                   - !Ref CargoLambdaUserPool
         DefaultAuthorizer: CargoLambdaJwtAuthorizer
         # EnableIamAuthorizer: false
-      Description: Cargo-Lambda Prototype HTTP API
+      Description: Cargo Lambda Prototype HTTP API
       FailOnWarnings: true
       Name: !Ref AWS::StackName
   CargoLambdaUserPoolDomain:
@@ -104,7 +104,7 @@ Resources:
       # Timeout: 3
 Outputs:
   CargoLambdaHttpApiUrl:
-    Description: URL of the Cargo-Lambda Prototype HTTP API endpoint
+    Description: URL of the Cargo Lambda Prototype HTTP API endpoint
     Value: !Join
       - ""
       - - "https://"
