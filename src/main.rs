@@ -1,55 +1,40 @@
+use lambda_http::aws_lambda_events::query_map::QueryMap;
 use lambda_http::request::RequestContext;
-use lambda_http::request::RequestContext::ApiGatewayV1;
-use lambda_http::request::RequestContext::ApiGatewayV2;
 use lambda_http::{
   run, service_fn, Body, Error, Request, RequestExt, Response,
 };
 
-/// There are some code example in the following URLs:
-/// - https://github.com/awslabs/aws-lambda-rust-runtime/tree/main/examples
-async fn function_handler(event: Request) -> Result<Response<Body>, Error> {
-  println!("event:\n{:#?}", event);
-  let request_context: RequestContext = event.request_context();
-  println!("request_context:\n{:#?}", request_context);
-  // TODO: use a match
-  if let ApiGatewayV1(api_gateway_v1_http_request) = request_context {
-    println!(
-      "api_gateway_v1_http_request:\n{:#?}",
-      api_gateway_v1_http_request
-    );
-  } else if let ApiGatewayV2(api_gateway_v2_http_request) = request_context {
-    println!(
-      "api_gateway_v2_http_request:\n{:#?}",
-      api_gateway_v2_http_request
-    );
-  }
-
-  // Extract some useful information from the request
-  let who = event
+async fn function_handler(request: Request) -> Result<Response<Body>, Error> {
+  // println!("request:\n{:#?}", request);
+  let request_str = format!("{:#?}", request);
+  let request_context: RequestContext = request.request_context();
+  let request_context_str = format!("{:#?}", request_context);
+  let query_string_parameters: QueryMap = request.query_string_parameters();
+  let query_string_parameters_str = format!("{:#?}", query_string_parameters);
+  let name = request
     .query_string_parameters_ref()
     .and_then(|params| params.first("name"))
-    .unwrap_or("world");
-  let message = format!("Hello {who}, this is an AWS Lambda HTTP request");
-
-  // Return something that implements IntoResponse.
-  // It will be serialized to the right response event automatically by the runtime
-  let resp = Response::builder()
+    .unwrap_or("World");
+  let message_str = format!("Hello, {}!", name);
+  let response_body_str = format!(
+    "\n{}\n\n{}\n\n{}\n\n{}",
+    request_str, request_context_str, query_string_parameters_str, message_str
+  );
+  let response_body = Body::from(response_body_str);
+  let response = Response::builder()
     .status(200)
-    .header("content-type", "text/html")
-    .body(message.into())
+    .header("content-type", "text/plain")
+    .body(response_body)
     .map_err(Box::new)?;
-  Ok(resp)
+  Ok(response)
 }
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
   tracing_subscriber::fmt()
-        .with_max_level(tracing::Level::INFO)
-        // disable printing the name of the module in every log line.
-        .with_target(false)
-        // disabling time is handy because CloudWatch will add the ingestion time.
-        .without_time()
-        .init();
-
+    .with_max_level(tracing::Level::INFO)
+    .with_target(false)
+    .without_time()
+    .init();
   run(service_fn(function_handler)).await
 }
