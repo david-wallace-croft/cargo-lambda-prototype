@@ -261,6 +261,7 @@ sam delete
 - https://dev.to/jinlianwang/user-authentication-through-authorization-code-grant-type-using-aws-cognito-1f93
 - https://youtu.be/Mdh_2PXe9i8?si=mJkzMTkuPvMLAgA-
 - https://youtu.be/h_1JAh3JPkI?si=M_gc3l1SqDWXnU3X
+- https://docs.rs/lambda_http/0.8.3/lambda_http/
 
 ## History
 
