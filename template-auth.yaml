@@ -6,7 +6,7 @@ Resources:
   CargoLambdaUserPool:
     Type: AWS::Cognito::UserPool
     Properties:
-      # UserPoolName: cargo-lambda-http-api-user-pool
+      UserPoolName: !Ref AWS::StackName
       AutoVerifiedAttributes:
         - email
       Schema:
@@ -28,9 +28,10 @@ Resources:
         - openid
         # - profile
       AllowedOAuthFlowsUserPoolClient: true
-      # ClientName: cargo-lambda-http-api-client
+      ClientName: !Ref AWS::StackName
       CallbackURLs:
         - "http://localhost:8080"
+        - "https://oauth.pstmn.io/v1/vscode-callback"
       ExplicitAuthFlows:
         - ALLOW_USER_PASSWORD_AUTH
         - ALLOW_REFRESH_TOKEN_AUTH
@@ -68,19 +69,22 @@ Resources:
         # EnableIamAuthorizer: false
       Description: Cargo-Lambda Prototype HTTP API
       FailOnWarnings: true
-      # Name: cargo-lambda-http-api
+      Name: !Ref AWS::StackName
   CargoLambdaUserPoolDomain:
     Type: AWS::Cognito::UserPoolDomain
     Properties:
-      Domain: !Join
-        - "-"
-        - - !Ref CargoLambdaHttpApi
-          - !Ref CargoLambdaUserPoolClient
+      Domain: !Ref AWS::StackName
       UserPoolId: !Ref CargoLambdaUserPool
+  CargoLambdaFunctionLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub "/aws/lambda/${AWS::StackName}"
+      RetentionInDays: 7
   CargoLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: target/lambda/cargo-lambda-prototype/
+      Description: Cargo Lambda Prototype Lambda Function
       Events:
         CargoLambdaEvent:
           Type: HttpApi
@@ -88,9 +92,16 @@ Resources:
             ApiId: !Ref CargoLambdaHttpApi
             Method: GET
             Path: /
-      # FunctionName: cargo-lambda-prototype
+      FunctionName: !Ref AWS::StackName
       Handler: rust.handler
+      LoggingConfig:
+        # ApplicationLogLevel: TRACE
+        LogFormat: Text
+        LogGroup: !Ref CargoLambdaFunctionLogGroup
+        # SystemLogLevel: DEBUG
+      # MemorySize: 128
       Runtime: provided.al2023
+      # Timeout: 3
 Outputs:
   CargoLambdaHttpApiUrl:
     Description: URL of the Cargo-Lambda Prototype HTTP API endpoint
