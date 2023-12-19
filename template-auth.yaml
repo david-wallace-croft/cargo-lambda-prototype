@@ -78,7 +78,6 @@ Resources:
   CargoLambdaFunctionLogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      # DeletionPolicy: Delete
       LogGroupName: !Sub "/aws/lambda/${AWS::StackName}"
       RetentionInDays: 7
   CargoLambdaFunction:

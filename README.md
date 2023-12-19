@@ -153,6 +153,8 @@ aws cloudformation delete-stack --stack-name cargo-lambda-prototype
 aws cloudformation validate-template --template-body file://template.yaml
 ```
 - Deploy the Lambda
+  - When prompted for the stack name, cargo-lambda-prototype is a valid input
+    - Whatever you choose for the stack name gets used in the resource names
   - Note the output URL
 ```
 sam deploy --guided
