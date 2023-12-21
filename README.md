@@ -260,13 +260,18 @@ sam delete
 
 ## Links
 
-- https://www.cargo-lambda.info/
+- Cargo Lambda
+  - https://www.cargo-lambda.info/
 - Jinlian (Sunny) Wang, "User authentication through authorization code grant
   type using AWS Cognito with sample projects", 2021
   - https://dev.to/jinlianwang/user-authentication-through-authorization-code-grant-type-using-aws-cognito-1f93
-- https://youtu.be/Mdh_2PXe9i8?si=mJkzMTkuPvMLAgA-
-- https://youtu.be/h_1JAh3JPkI?si=M_gc3l1SqDWXnU3X
-- https://docs.rs/lambda_http/0.8.3/lambda_http/
+- Efi Merdler-Kravitz, "'Rustifying' serverless: Boost AWS Lambda peformance
+  with Rust", 2023
+  - https://youtu.be/Mdh_2PXe9i8?si=mJkzMTkuPvMLAgA-
+- productioncoder, "OAuth Proof Key for Code Exchange explained", 2021
+  - https://youtu.be/h_1JAh3JPkI?si=M_gc3l1SqDWXnU3X
+- Create lambda_http
+  - https://docs.rs/lambda_http/0.8.3/lambda_http/
 
 ## History
 
