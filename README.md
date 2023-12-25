@@ -3,7 +3,7 @@
 [![MIT licensed][mit-badge]][mit-url]
 
 [mit-badge]: https://img.shields.io/badge/license-MIT-blue.svg
-[mit-url]: https://github.com/david-wallace-croft/dioxus-prototype/blob/main/LICENSE.txt
+[mit-url]: https://github.com/david-wallace-croft/cargo-lambda-prototype/blob/main/LICENSE.txt
 
 - Deploy a Rust programming language serverless Function-as-a-Service (FaaS)
 - Uses Amazon Web Services (AWS) Lambda, AWS CloudFormation (CFn), and Cargo Lambda
