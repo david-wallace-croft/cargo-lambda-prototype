@@ -103,8 +103,11 @@ Resources:
       Runtime: provided.al2023
       # Timeout: 3
 Outputs:
+  CargoLambdaClientId:
+    Description: "The ID of the User Pool Client is the OAuth 2.0 client ID"
+    Value: !Ref CargoLambdaUserPoolClient
   CargoLambdaHttpApiUrl:
-    Description: URL of the Cargo Lambda Prototype HTTP API endpoint
+    Description: "URL of the Cargo Lambda Prototype HTTP API endpoint"
     Value: !Join
       - ""
       - - "https://"
@@ -114,7 +117,18 @@ Outputs:
         - "."
         - !Ref "AWS::URLSuffix"
         - "/"
+  CargoLambdaIssuerUrl:
+    Description: "The URL for the OAuth 2.0 token issuer"
+    Value: !Join
+      - ""
+      - - "https://cognito-idp."
+        - !Ref "AWS::Region"
+        - "."
+        - !Ref "AWS::Partition"
+        - "/"
+        - !Ref CargoLambdaUserPool
   CargoLambdaSignupUrl:
+    Description: "The login / signup URL"
     Value: !Join
       - ""
       - - "https://"
