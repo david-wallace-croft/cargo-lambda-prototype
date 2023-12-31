@@ -124,7 +124,7 @@ Outputs:
       - - "https://cognito-idp."
         - !Ref "AWS::Region"
         - "."
-        - !Ref "AWS::Partition"
+        - !Ref "AWS::URLSuffix"
         - "/"
         - !Ref CargoLambdaUserPool
   CargoLambdaSignupUrl:
