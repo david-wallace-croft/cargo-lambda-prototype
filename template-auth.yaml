@@ -31,6 +31,7 @@ Resources:
       ClientName: !Ref AWS::StackName
       CallbackURLs:
         - "http://localhost:8080"
+        - "http://localhost:8080/"
         - "https://oauth.pstmn.io/v1/vscode-callback"
       ExplicitAuthFlows:
         - ALLOW_USER_PASSWORD_AUTH
