@@ -41,13 +41,17 @@ Resources:
       SupportedIdentityProviders:
         - COGNITO
   CargoLambdaHttpApi:
-    # https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-resource-httpapi.html
+    # https://docs.aws.amazon.com/serverless-application-model/latest/
+    #   developerguide/sam-resource-httpapi.html
     Type: AWS::Serverless::HttpApi
     Properties:
-      # https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/sam-property-httpapi-httpapiauth.html
-      # https://docs.aws.amazon.com/apigatewayv2/latest/api-reference/apis-apiid-authorizers-authorizerid.html
+      # https://docs.aws.amazon.com/serverless-application-model/latest/
+      #   developerguide/sam-property-httpapi-httpapiauth.html
+      # https://docs.aws.amazon.com/apigatewayv2/latest/api-reference/
+      #   apis-apiid-authorizers-authorizerid.html
       Auth:
-        # https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-jwt-authorizer.html
+        # https://docs.aws.amazon.com/apigateway/latest/developerguide/
+        #   http-api-jwt-authorizer.html
         Authorizers:
           CargoLambdaJwtAuthorizer:
             # AuthorizationScopes:
@@ -68,6 +72,20 @@ Resources:
                   - !Ref CargoLambdaUserPool
         DefaultAuthorizer: CargoLambdaJwtAuthorizer
         # EnableIamAuthorizer: false
+      # https://docs.aws.amazon.com/serverless-application-model/latest/
+      #   developerguide/sam-resource-httpapi.html#sam-httpapi-corsconfiguration
+      CorsConfiguration:
+        AllowHeaders:
+          - Authorization
+          - Content-Type
+        AllowMethods:
+          # - DELETE
+          - GET
+          - OPTIONS
+          # - POST
+          # - PUT
+        AllowOrigins:
+          - "http://localhost:8080"
       Description: Cargo Lambda Prototype HTTP API
       FailOnWarnings: true
       Name: !Ref AWS::StackName
