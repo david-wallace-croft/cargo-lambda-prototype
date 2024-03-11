@@ -35,13 +35,18 @@ Resources:
         - "http://localhost:8080/callback"
         - "http://localhost:8080/callback/"
         - "https://oauth.pstmn.io/v1/vscode-callback"
+      # https://docs.aws.amazon.com/
+      #   cognito/latest/developerguide/token-revocation.html
+      # https://docs.aws.amazon.com/
+      #   cognito/latest/developerguide/revocation-endpoint.html
+      EnableTokenRevocation: true
       ExplicitAuthFlows:
         - ALLOW_USER_PASSWORD_AUTH
         - ALLOW_REFRESH_TOKEN_AUTH
       GenerateSecret: false
-      UserPoolId: !Ref CargoLambdaUserPool
       SupportedIdentityProviders:
         - COGNITO
+      UserPoolId: !Ref CargoLambdaUserPool
   CargoLambdaHttpApi:
     # https://docs.aws.amazon.com/serverless-application-model/latest/
     #   developerguide/sam-resource-httpapi.html
